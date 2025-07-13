@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FloatingNav - Démonstration</title>
+    <script src="floating_nav_framework.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 200vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            margin-top: 0;
+            color: #2575fc;
+        }
+        
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background: #2575fc;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            background: #1a5dc8;
+            transform: translateY(-2px);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #0f0c29 0%, #302b63 100%);
+                color: #eee;
+            }
+            
+            .demo-section {
+                background: rgba(0, 0, 0, 0.5);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            }
+            
+            pre {
+                background: #1e1e2e;
+                color: #e2e2e2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FloatingNav</h1>
+            <p class="subtitle">Framework de barres de navigation flottantes élégantes</p>
+        </header>
+        
+        <section class="demo-section">
+            <h2>Démonstration Basique</h2>
+            <p>Une barre de navigation principale avec icônes SVG intégrées :</p>
+            
+            <div class="controls">
+                <button onclick="FloatingNav.show('main-demo')">Afficher</button>
+                <button onclick="FloatingNav.hide('main-demo')">Masquer</button>
+                <button onclick="FloatingNav.setTheme('main-demo', 'light')">Thème clair</button>
+                <button onclick="FloatingNav.setTheme('main-demo', 'dark')">Thème sombre</button>
+                <button onclick="FloatingNav.setTheme('main-demo', 'auto')">Auto</button>
+            </div>
+            
+            <pre><code>FloatingNav.create('main-demo', [
+    {
+        icon: FloatingNav.icons.home,
+        text: 'Accueil',
+        href: '#home',
+        tooltip: 'Retour à l\'accueil'
+    },
+    {
+        icon: FloatingNav.icons.search,
+        text: 'Recherche',
+        onClick: () => alert('Recherche cliquée!'),
+        tooltip: 'Rechercher'
+    },
+    {
+        icon: FloatingNav.icons.user,
+        text: 'Profil',
+        href: '#profile',
+        tooltip: 'Mon profil',
+        indicator: true
+    },
+    {
+        icon: FloatingNav.icons.settings,
+        text: 'Paramètres',
+        href: '#settings',
+        tooltip: 'Paramètres'
+    }
+], {
+    position: 'bottom-center',
+    theme: 'auto',
+    showLabels: true,
+    blur: 25,
+    borderRadius: 25
+});</code></pre>
+        </section>
+        
+        <section class="demo-section">
+            <h2>Navigation avec Emojis</h2>
+            <p>Une barre plus compacte utilisant des emojis comme icônes :</p>
+            
+            <div class="controls">
+                <button onclick="FloatingNav.show('emoji-demo')">Afficher</button>
+                <button onclick="FloatingNav.hide('emoji-demo')">Masquer</button>
+                <button onclick="FloatingNav.update('emoji-demo', emojiItems, {showLabels: true})">Afficher textes</button>
+                <button onclick="FloatingNav.update('emoji-demo', emojiItems, {showLabels: false})">Masquer textes</button>
+            </div>
+            
+            <pre><code>const emojiItems = [
+    { icon: '🏠', text: 'Accueil', href: '#home' },
+    { icon: '🔍', text: 'Recherche', onClick: () => {} },
+    { icon: '❤️', text: 'Favoris', indicator: true },
+    { icon: '⚙️', text: 'Réglages', href: '#settings' }
+];
+
+FloatingNav.create('emoji-demo', emojiItems, {
+    position: 'top-right',
+    iconSize: 28,
+    gap: 15,
+    autoHide: true,
+    hideDelay: 2000
+});</code></pre>
+        </section>
+        
+        <section class="demo-section">
+            <h2>Barre Latérale</h2>
+            <p>Une navigation verticale sur le côté gauche :</p>
+            
+            <div class="controls">
+                <button onclick="FloatingNav.show('side-demo')">Afficher</button>
+                <button onclick="FloatingNav.hide('side-demo')">Masquer</button>
+                <button onclick="FloatingNav.update('side-demo', sideItems, {position: 'left-center'})">Gauche</button>
+                <button onclick="FloatingNav.update('side-demo', sideItems, {position: 'right-center'})">Droite</button>
+            </div>
+            
+            <pre><code>const sideItems = [
+    {
+        icon: FloatingNav.icons.mail,
+        tooltip: 'Messages',
+        indicator: true,
+        onClick: () => alert('Nouveaux messages!')
+    },
+    {
+        icon: FloatingNav.icons.heart,
+        tooltip: 'Favoris',
+        href: '#favorites'
+    },
+    {
+        icon: FloatingNav.icons.star,
+        tooltip: 'Étoiles',
+        href: '#stars'
+    },
+    {
+        icon: FloatingNav.icons.phone,
+        tooltip: 'Contact',
+        href: '#contact'
+    }
+];
+
+FloatingNav.create('side-demo', sideItems, {
+    position: 'left-center',
+    theme: 'dark',
+    borderRadius: 15,
+    iconSize: 22,
+    padding: 10
+});</code></pre>
+        </section>
+        
+        <section class="demo-section">
+            <h2>Auto-Hide & Animation</h2>
+            <p>Une barre qui se cache automatiquement après inactivité :</p>
+            
+            <div class="controls">
+                <button onclick="FloatingNav.show('autohide-demo')">Afficher</button>
+                <button onclick="FloatingNav.update('autohide-demo', autohideItems, {autoHide: true})">Activer Auto-Hide</button>
+                <button onclick="FloatingNav.update('autohide-demo', autohideItems, {autoHide: false})">Désactiver Auto-Hide</button>
+            </div>
+            
+            <pre><code>const autohideItems = [
+    { icon: '📱', tooltip: 'Téléphone', onClick: () => {} },
+    { icon: '📧', tooltip: 'Email', href: '#email' },
+    { icon: '🗺️', tooltip: 'Carte', href: '#map' },
+    { icon: '📅', tooltip: 'Calendrier', href: '#calendar' }
+];
+
+FloatingNav.create('autohide-demo', autohideItems, {
+    position: 'bottom-right',
+    autoHide: true,
+    hideDelay: 3000,
+    animationDuration: 500,
+    hoverScale: 1.2
+});</code></pre>
+        </section>
+    </div>
+    
+    <button class="theme-toggle" onclick="toggleDarkMode()">🌓 Mode Sombre</button>
+    
+    <script>
+        // Données pour les démos
+        const emojiItems = [
+            { icon: '🏠', text: 'Accueil', href: '#home' },
+            { icon: '🔍', text: 'Recherche', onClick: () => {} },
+            { icon: '❤️', text: 'Favoris', indicator: true },
+            { icon: '⚙️', text: 'Réglages', href: '#settings' }
+        ];
+        
+        const sideItems = [
+            {
+                icon: FloatingNav.icons.mail,
+                tooltip: 'Messages',
+                indicator: true,
+                onClick: () => alert('Nouveaux messages!')
+            },
+            {
+                icon: FloatingNav.icons.heart,
+                tooltip: 'Favoris',
+                href: '#favorites'
+            },
+            {
+                icon: FloatingNav.icons.star,
+                tooltip: 'Étoiles',
+                href: '#stars'
+            },
+            {
+                icon: FloatingNav.icons.phone,
+                tooltip: 'Contact',
+                href: '#contact'
+            }
+        ];
+        
+        const autohideItems = [
+            { icon: '📱', tooltip: 'Téléphone', onClick: () => {} },
+            { icon: '📧', tooltip: 'Email', href: '#email' },
+            { icon: '🗺️', tooltip: 'Carte', href: '#map' },
+            { icon: '📅', tooltip: 'Calendrier', href: '#calendar' }
+        ];
+        
+        // Initialisation des démos
+        document.addEventListener('DOMContentLoaded', function() {
+            // Démos basiques
+            FloatingNav.create('main-demo', [
+                {
+                    icon: FloatingNav.icons.home,
+                    text: 'Accueil',
+                    href: '#home',
+                    tooltip: 'Retour à l\'accueil'
+                },
+                {
+                    icon: FloatingNav.icons.search,
+                    text: 'Recherche',
+                    onClick: () => alert('Recherche cliquée!'),
+                    tooltip: 'Rechercher'
+                },
+                {
+                    icon: FloatingNav.icons.user,
+                    text: 'Profil',
+                    href: '#profile',
+                    tooltip: 'Mon profil',
+                    indicator: true
+                },
+                {
+                    icon: FloatingNav.icons.settings,
+                    text: 'Paramètres',
+                    href: '#settings',
+                    tooltip: 'Paramètres'
+                }
+            ], {
+                position: 'bottom-center',
+                theme: 'auto',
+                showLabels: true,
+                blur: 25,
+                borderRadius: 25
+            });
+            
+            // Démos emoji
+            FloatingNav.create('emoji-demo', emojiItems, {
+                position: 'top-right',
+                iconSize: 28,
+                gap: 15,
+                autoHide: true,
+                hideDelay: 2000
+            });
+            
+            // Démos latérale
+            FloatingNav.create('side-demo', sideItems, {
+                position: 'left-center',
+                theme: 'dark',
+                borderRadius: 15,
+                iconSize: 22,
+                padding: 10
+            });
+            
+            // Démos auto-hide
+            FloatingNav.create('autohide-demo', autohideItems, {
+                position: 'bottom-right',
+                autoHide: true,
+                hideDelay: 3000,
+                animationDuration: 500,
+                hoverScale: 1.2
+            });
+        });
+        
+        // Basculer entre les thèmes clair/sombre
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                document.querySelector('.theme-toggle').textContent = '🌓 Mode Sombre';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                document.querySelector('.theme-toggle').textContent = '🌓 Mode Clair';
+            }
+        }
+    </script>
+</body>
+</html>
